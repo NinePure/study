@@ -1,5 +1,6 @@
 package com.studies.study.arithmetic.sort.impl;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -23,8 +24,21 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> bubbleSort(List<Integer> sortedNums) {
-        return null;
+    public int[] bubbleSort(int[] sortedNums) {
+        for (int i = 0; i < sortedNums.length - 1; i++) {
+            for (int j = 1; j < sortedNums.length - i; j++) {
+                if (sortedNums[j - 1] > sortedNums[j]) {
+                    changeNum(sortedNums, j, j - 1);
+                }
+            }
+        }
+        return sortedNums;
+    }
+
+    private void changeNum(int[] sortedNums, int i,int j) {
+        int item = sortedNums[j];
+        sortedNums[j] = sortedNums[i];
+        sortedNums[i] = item;
     }
 
     /**
@@ -35,8 +49,17 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> selectionSort(List<Integer> sortedNums) {
-        return null;
+    public int[] selectionSort(int[] sortedNums) {
+        for (int i = 0; i < sortedNums.length; i++) {
+            int index = i;
+            for (int j = i + 1; j < sortedNums.length; j++) {
+                if (sortedNums[j] < sortedNums[index]) {
+                    index = j;
+                }
+            }
+            changeNum(sortedNums, i, index);
+        }
+        return sortedNums;
     }
 
     /**
@@ -47,7 +70,7 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> quickSort(List<Integer> sortedNums) {
+    public int[] quickSort(int[] sortedNums) {
         return null;
     }
 
@@ -59,7 +82,7 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> insertionSort(List<Integer> sortedNums) {
+    public int[] insertionSort(int[] sortedNums) {
         return null;
     }
 
@@ -71,7 +94,7 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> shellSort(List<Integer> sortedNums) {
+    public int[] shellSort(int[] sortedNums) {
         return null;
     }
 
@@ -83,7 +106,7 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> bucketSort(List<Integer> sortedNums) {
+    public int[] bucketSort(int[] sortedNums) {
         return null;
     }
 
@@ -95,7 +118,7 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> radixSort(List<Integer> sortedNums) {
+    public int[] radixSort(int[] sortedNums) {
         return null;
     }
 
@@ -107,7 +130,7 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> mergeSort(List<Integer> sortedNums) {
+    public int[] mergeSort(int[] sortedNums) {
         return null;
     }
 
@@ -119,7 +142,7 @@ public class SortImpl implements ISort {
      * @param sortedNums
      */
     @Override
-    public List<Integer> heapSort(List<Integer> sortedNums) {
+    public int[] heapSort(int[] sortedNums) {
         return null;
     }
 }
