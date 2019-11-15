@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    db-hfdf:
+  #    url: jdbc:ArteryBase://172.16.144.49:5432/db_hfdf
+  #    username: postgres
+  #    password: postgre
+      jdbc-url: jdbc:ArteryBase://172.16.34.54:5432/db_hfdf?currentSchema=db_hfdf
+#      jdbc-url: jdbc:ArteryBase://192.168.188.132:5432/db_hfdf?currentSchema=db_hfdf
+      username: sa
+      password: tusc@6789#JKL
+      driver-class-name: com.thunisoft.ArteryBase.Driver
