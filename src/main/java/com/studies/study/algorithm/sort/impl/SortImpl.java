@@ -1,11 +1,10 @@
-package com.studies.study.arithmetic.sort.impl;
+package com.studies.study.algorithm.sort.impl;
 
-import java.lang.reflect.Array;
-import java.util.List;
+import java.util.Arrays;
 
 import org.springframework.stereotype.Component;
 
-import com.studies.study.arithmetic.sort.ISort;
+import com.studies.study.algorithm.sort.ISort;
 
 /**
  * detail
@@ -71,7 +70,43 @@ public class SortImpl implements ISort {
      */
     @Override
     public int[] quickSort(int[] sortedNums) {
-        return null;
+        quickSortRecursive(sortedNums, 0, sortedNums.length - 1);
+        return sortedNums;
+    }
+
+    /**
+     * 快速排序递归方法
+     *
+     * @param sortedNums
+     * @param begin
+     * @param end
+     */
+    private void quickSortRecursive(int[] sortedNums, int begin, int end) {
+        if (begin >= end) {
+            return;
+        }
+        int left = begin;
+        int right = end;
+        int item = sortedNums[left];
+        while (left < right) {
+            while (left < right) {
+                if (sortedNums[right] < item) {
+                    sortedNums[left++] = sortedNums[right];
+                    break;
+                }
+                right--;
+            }
+            while (left < right) {
+                if (sortedNums[left] >= item) {
+                    sortedNums[right--] = sortedNums[left];
+                    break;
+                }
+                left++;
+            }
+        }
+        sortedNums[left] = item;
+        quickSortRecursive(sortedNums, begin, left);
+        quickSortRecursive(sortedNums, left + 1, end);
     }
 
     /**
@@ -83,8 +118,25 @@ public class SortImpl implements ISort {
      */
     @Override
     public int[] insertionSort(int[] sortedNums) {
-        return null;
+        int mid = 0;
+        while (mid < sortedNums.length - 1) {
+            int item = sortedNums[mid + 1];
+            for (int i = mid; i >= 0; i--) {
+                if (item >= sortedNums[i]) {
+                    sortedNums[i + 1] = item;
+                    break;
+                } else {
+                    sortedNums[i + 1] = sortedNums[i];
+                }
+                if (i == 0) {
+                    sortedNums[0] = item;
+                }
+            }
+            mid++;
+        }
+        return sortedNums;
     }
+
 
     /**
      * 5、希尔排序 - 插入排序的改进版。为了减少数据的移动次数，在初始序列较大时取较大的步长，通常取序列长度的一半，此时只有两个元素比较，交换一次；之后步长依次减半直至步长为1，即为插入排序，由于此时序列已接近有序，故插入元素时数据移动的次数会相对较少，效率得到了提高。
@@ -95,7 +147,30 @@ public class SortImpl implements ISort {
      */
     @Override
     public int[] shellSort(int[] sortedNums) {
-        return null;
+        for (int step = sortedNums.length  / 2; step > 0; step /= 2)
+        {
+            for (int i = 0; i < step; i++)
+            {
+                for (int j = i + step; j < sortedNums.length; j += step)
+                {
+                    int k = j - step;
+                    for ( ; k >= i; k -= step) {
+                        if (sortedNums[k] <= sortedNums[j]) {
+                            break;
+                        }
+                    }
+                    if (k != j - step)
+                    {
+                        int tmp = sortedNums[j];
+                        for (int m = j; m > k + step; m -= step) {
+                            sortedNums[m] = sortedNums[m - step];
+                        }
+                        sortedNums[k + step] = tmp;
+                    }
+                }
+            }
+        }
+        return sortedNums;
     }
 
     /**
@@ -107,7 +182,26 @@ public class SortImpl implements ISort {
      */
     @Override
     public int[] bucketSort(int[] sortedNums) {
-        return null;
+        int max = getMaxValue(sortedNums);
+        int[] indexes = new int[max + 1];
+        for (int sortedNum : sortedNums) {
+            indexes[sortedNum]++;
+        }
+        int sortIndex = 0;
+        for (int i = 0; i < indexes.length; i++) {
+            for (int j = 1; j <= indexes[i]; j++) {
+                sortedNums[sortIndex++] = i;
+            }
+        }
+        return sortedNums;
+    }
+
+    private int getMaxValue(int[] sortedNums) {
+        int max = 0;
+        for (int sortedNum : sortedNums) {
+            max = sortedNum > max ? sortedNum : max;
+        }
+        return max;
     }
 
     /**
@@ -119,7 +213,37 @@ public class SortImpl implements ISort {
      */
     @Override
     public int[] radixSort(int[] sortedNums) {
-        return null;
+        int maxDigit = getMaxDigit(sortedNums);
+        int mod = 10;
+        int dev = 1;
+        for (int i = 0; i < maxDigit; i++, dev *= 10, mod *= 10) {
+            int[][] counter = new int[mod * 2][0];
+            for (int j = 0; j < sortedNums.length; j++) {
+                //正数为10-19，负数为0-9
+                int bucket = ((sortedNums[j] % mod) / dev) + mod;
+                counter[bucket] = Arrays.copyOf(counter[bucket], counter[bucket].length + 1);
+                counter[bucket][counter[bucket].length - 1] = sortedNums[j];
+            }
+            int index = 0;
+            for (int[] bucket : counter) {
+                for (int value : bucket) {
+                    sortedNums[index++] = value;
+                }
+            }
+        }
+        return sortedNums;
+    }
+
+    private int getMaxDigit(int[] arr) {
+        int maxValue = getMaxValue(arr);
+        if (maxValue == 0) {
+            return 1;
+        }
+        int maxDigit = 0;
+        for (int i = maxValue; i != 0; i /= 10) {
+            maxDigit++;
+        }
+        return maxDigit;
     }
 
     /**

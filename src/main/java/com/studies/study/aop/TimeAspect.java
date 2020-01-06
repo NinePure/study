@@ -27,7 +27,7 @@ public class TimeAspect {
      * 切入点
      * 匹配包及其子包下的所有类的所有方法
      */
-    @Pointcut("execution(* com.studies.study.arithmetic.sort.*.*(..))")
+    @Pointcut("execution(* com.studies.study.algorithm.sort.*.*(..))")
     public void executePackage(){
     }
 
@@ -60,7 +60,7 @@ public class TimeAspect {
 //     * @param joinPoint
 //     * @param keys
 //     */
-//    @AfterReturning(value = "execution(* com.studies.study.arithmetic.sort.*.*(..))",returning = "keys")
+//    @AfterReturning(value = "execution(* com.studies.study.algorithm.sort.*.*(..))",returning = "keys")
 //    public void afterReturningAdvice(JoinPoint joinPoint,String keys){
 //        System.out.println("- - - - - 后置返回通知- - - - -");
 //        System.out.println("后置返回通知 返回值："+keys);
@@ -84,14 +84,15 @@ public class TimeAspect {
      * 环绕通知非常强大，可以决定目标方法是否执行，什么时候执行，执行时是否需要替换方法参数，执行完毕是否需要替换返回值。
      * 环绕通知第一个参数必须是org.aspectj.lang.ProceedingJoinPoint类型
      */
-    @Around("execution(* com.studies.study.arithmetic.sort.*.*(..))")
+    @Around("execution(* com.studies.study.algorithm.sort.*.*(..))")
     public Object aroundAdvice(ProceedingJoinPoint proceedingJoinPoint){
         System.out.println("- - - - - " + proceedingJoinPoint.getSignature().getName() + " - - - -");
         try {//obj之前可以写目标方法执行前的逻辑
             long startTime =  System.currentTimeMillis();
-            Object obj = proceedingJoinPoint.proceed();//调用执行目标方法
+            /*调用执行目标方法*/
+            Object obj = proceedingJoinPoint.proceed();
             long endTime =  System.currentTimeMillis();
-            System.out.println(Arrays.toString((int[]) obj));
+//            System.out.println(Arrays.toString((int[]) obj));
             System.out.println("用时" + (endTime - startTime) + "ms");
             return obj;
         } catch (Throwable throwable) {

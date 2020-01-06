@@ -1,6 +1,4 @@
-package com.studies.study.arithmetic.sort;
-
-import java.util.List;
+package com.studies.study.algorithm.sort;
 
 /**
  * 排序接口
